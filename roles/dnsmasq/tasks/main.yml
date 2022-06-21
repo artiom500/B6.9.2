@@ -1,0 +1,17 @@
+---
+# tasks file for dnsmasq
+- name: Install dnsmasq
+  yum:
+       name: dnsmasq
+       state: installed
+- name: Copy config file
+  copy:
+   src: /etc/ansible/playbooks/files/dnsmasq.conf
+   dest: /etc/dnsmasq.conf
+   remote_src: yes
+
+- name: Start service dnsmasq
+  service:
+     name: dnsmasq
+     state: started
+     enabled: yes

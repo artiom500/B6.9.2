@@ -1,0 +1,29 @@
+---
+# tasks file for sudogroup
+- name: Create group
+  group:
+      name: superusers
+      state: present
+
+- name: create users
+  user:
+    name: "{{ item }}"
+    group: superusers
+    state: present
+  loop:
+    - user2
+    - user3
+
+- name: Add group to sudo
+  lineinfile:
+        path: /etc/sudoers
+        regexp: '%wheel ALL=(ALL) NOPASSWD: ALL' 
+        line: '%superusers ALL=(ALL) NOPASSWD: ALL'
+
+- name: Validate superusers
+  lineinfile:
+      path: /etc/sudoers
+      state: present
+      regexp: '%superusers'
+      line: '%superusers ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -cf %s'

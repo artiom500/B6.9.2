@@ -1,0 +1,12 @@
+---
+# tasks file for php-fpm
+- name: install package
+  yum:
+     name: php-fpm
+     state: installed
+
+- name: start service
+  service:
+       name: php-fpm
+       state: started
+       enabled: yes
